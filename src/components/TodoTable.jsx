@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import { DeleteIcon } from "./UI/icons";
+import { fetchTodos } from "../store/todosSlice";
 
 const todoItems = [
   { id: 1, name: "Item 1" },
@@ -9,7 +11,12 @@ const todoItems = [
 ];
 
 const TodoTable = () => {
-  const [items, setItems] = useState(todoItems);
+  const {items, loading, error} = useSelector((state) => state.todos);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchTodos());
+  }, [dispatch]);
 
   const handleDeleteClick = (id) => {
     console.log(id);
@@ -18,6 +25,9 @@ const TodoTable = () => {
   const handleCheckClick = (id) => {
     console.log(id);
   };
+
+  if (error) return <p>Error: {error}</p>;
+  if (loading) return <p>Loading...</p>;
 
   return (
     <>
@@ -32,9 +42,10 @@ const TodoTable = () => {
                 type="checkbox"
                 className="default:ring-2 checked:bg-green invisible @sm:visible"
                 onClick={() => handleCheckClick(item.id)}
+                checked={item.completed}
               />
             </div>
-            <div className="flex-grow flex-shrink-0">{item.name}</div>
+            <div className="flex-grow flex-shrink-0">{item.title}</div>
             <div>
               <button
                 className="text-red-500 px-2 rounded-sm text-base"

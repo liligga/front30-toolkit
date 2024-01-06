@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { userActions } from '../store/userSlice';
+// import products from '../data/products.json';
 
 
 const UserPage = () => {
@@ -6,10 +9,14 @@ const UserPage = () => {
   const [userEmail, setUserEmail] = useState('')
   const [userPhone, setUserPhone] = useState('')
 
+  const { name, email, phone } = useSelector((state) => state.user.user)
+  const dispatch = useDispatch()
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    //
+    dispatch(userActions.changeUser({ name: userName, email: userEmail, phone: userPhone }))
+
     setUserName('')
     setUserEmail('')
     setUserPhone('')
@@ -43,9 +50,9 @@ const UserPage = () => {
         <button type="submit">Сохранить</button>
       </form>
       <div className='w-full col-span-full md:max-lg:max-w-xs lg:col-start-3 lg:col-end-6 flex flex-col gap-3 items-stretch text-md text-left [&>span]:truncate [&>span]:border-2 [&>span]:border-rose-400 [&>span]:border-dashed [&>*]:p-1'>
-        <span>Имя: {userName}</span>
-        <span>Email: {userEmail}</span>
-        <span>Телефон: {userPhone}</span>
+        <span>Имя: {name}</span>
+        <span>Email: {email}</span>
+        <span>Телефон: {phone}</span>
       </div>
     </div>
   )
