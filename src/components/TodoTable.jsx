@@ -11,7 +11,7 @@ const todoItems = [
 ];
 
 const TodoTable = () => {
-  const {items, loading, error} = useSelector((state) => state.todos);
+  const { items, loading, error } = useSelector((state) => state.todos);
   const dispatch = useDispatch();
 
   useEffect(() => {
