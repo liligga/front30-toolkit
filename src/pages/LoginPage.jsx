@@ -1,23 +1,19 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useDispatch } from 'react-redux'
+import { loginThunk } from '../store/authSlice';
+
 
 const LoginPage = () => {
   const [username, setUsername] = useState('kminchelle');
   const [password, setPassword] = useState('0lelplR');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const auth = async () => {
-      const resp = await axios.post("https://dummyjson.com/auth/login", {
-        username,
-        password
-      })
-      localStorage.setItem("token", resp.data.token) 
-    }
-    auth()
+    dispatch(loginThunk({ username, password }))
     navigate("/")
   }
 
