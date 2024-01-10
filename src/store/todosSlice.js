@@ -22,6 +22,20 @@ export const fetchTodosWithFetch = createAsyncThunk(
     }
 )
 
+// thunk для запросов на закрытый ендпоинт
+export const fetchTodosWithAuth = createAsyncThunk(
+  'todos/fetchTodosWithAuth',
+  async (_, thunkAPI) => {
+    const response = await axios.get("https://dummyjson.com/auth/todos", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },      
+    })
+    console.log(response.data)
+    return response.data
+  }
+)
+
 
 const todosSlice = createSlice({
     name: 'todos',
@@ -45,6 +59,11 @@ const todosSlice = createSlice({
             // state.error = "Произошла ошибка"
             state.error = action.error.message
             state.loading = false
+        })
+        .addCase(fetchTodosWithAuth.fulfilled, (state, action) => {
+            state.error = null
+            state.loading = false
+            state.items = action.payload.todos
         })
     } 
 })

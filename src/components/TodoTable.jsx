@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { DeleteIcon } from "./UI/icons";
-import { fetchTodos } from "../store/todosSlice";
+import { fetchTodos, fetchTodosWithAuth } from "../store/todosSlice";
 
 const todoItems = [
   { id: 1, name: "Item 1" },
@@ -15,7 +15,8 @@ const TodoTable = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchTodos());
+    // dispatch(fetchTodos());
+    dispatch(fetchTodosWithAuth()); // запрос на закрытый ендпоинт
   }, [dispatch]);
 
   const handleDeleteClick = (id) => {
@@ -45,7 +46,8 @@ const TodoTable = () => {
                 checked={item.completed}
               />
             </div>
-            <div className="flex-grow flex-shrink-0">{item.title}</div>
+            {/* <div className="flex-grow flex-shrink-0">{item.title}</div> */}
+            <div className="flex-grow flex-shrink-0">{item.todo}</div>
             <div>
               <button
                 className="text-red-500 px-2 rounded-sm text-base"

@@ -8,7 +8,6 @@ export const loginThunk = createAsyncThunk(
       username,
       password
     })
-    console.log(resp.data)
     return resp.data
   }
 )
